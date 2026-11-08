@@ -1,0 +1,8 @@
+{
+  "DisplayName": "TinyStar桌面便签",
+  "StoreId": "YOUR_STORE_ID",
+  "IdentityName": "YourPublisher.TinyStar",
+  "Publisher": "CN=YourPublisher",
+  "PublisherDisplayName": "YourPublisher",
+  "Version": "1.1.8.0"
+}
