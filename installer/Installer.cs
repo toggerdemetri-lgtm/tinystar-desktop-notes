@@ -8,14 +8,14 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 [assembly: AssemblyTitle("TinyStar桌面便签安装")]
 [assembly: AssemblyProduct("TinyStar桌面便签")]
-[assembly: AssemblyVersion("1.1.8.0")]
-[assembly: AssemblyFileVersion("1.1.8.0")]
+[assembly: AssemblyVersion("1.1.9.0")]
+[assembly: AssemblyFileVersion("1.1.9.0")]
 class Installer {
     const string AppName="TinyStar桌面便签";
     static string ShellIconName {get {
         using(var input=Assembly.GetExecutingAssembly().GetManifestResourceStream("Shell.ico"))
         using(var hash=System.Security.Cryptography.SHA256.Create())
-            return "TinyStar-1.1.8-"+BitConverter.ToString(hash.ComputeHash(input)).Replace("-","").Substring(0,8).ToLowerInvariant()+".ico";
+            return "TinyStar-1.1.9-"+BitConverter.ToString(hash.ComputeHash(input)).Replace("-","").Substring(0,8).ToLowerInvariant()+".ico";
     }}
     const string UninstallKey=@"Software\Microsoft\Windows\CurrentVersion\Uninstall\ZhuomianNotes";
     static string Destination {get {return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"Programs","ZhuomianNotes");}}
@@ -71,7 +71,7 @@ class Installer {
                 string helper=Path.Combine(Path.GetTempPath(),"ZhuomianNotes-Uninstall-"+Guid.NewGuid().ToString("N")+".exe");File.Copy(Assembly.GetExecutingAssembly().Location,helper);
                 Process.Start(new ProcessStartInfo(helper,"--remove "+Process.GetCurrentProcess().Id) {UseShellExecute=true,WindowStyle=ProcessWindowStyle.Hidden});return 0;
             }
-            if(MessageBox.Show("安装TinyStar桌面便签 1.1.8\n\n安装后可以在桌面上管理事项。\n安装位置："+Destination+"\n仅为当前用户安装，不需要管理员权限。",AppName+"安装",MessageBoxButtons.OKCancel,MessageBoxIcon.Information)!=DialogResult.OK)return 0;
+            if(MessageBox.Show("安装TinyStar桌面便签 1.1.9\n\n安装后可以在桌面上管理事项。\n安装位置："+Destination+"\n仅为当前用户安装，不需要管理员权限。",AppName+"安装",MessageBoxButtons.OKCancel,MessageBoxIcon.Information)!=DialogResult.OK)return 0;
             if(AppRunning())throw new IOException("便签还在运行。请先从托盘退出，再重新安装。原有内容会保留。");
             Directory.CreateDirectory(Destination);
             // Never overwrite a running or read-only legacy Uninstall.exe. Prepare
@@ -82,7 +82,7 @@ class Installer {
             Directory.CreateDirectory(ShortcutFolder);Shortcut(Path.Combine(ShortcutFolder,AppName+".lnk"),exe,"");Shortcut(Path.Combine(ShortcutFolder,"卸载TinyStar桌面便签.lnk"),uninstall,"/uninstall");
             Shortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),AppName+".lnk"),exe,"");
             RemoveLegacyShortcuts();
-            using(var key=Registry.CurrentUser.CreateSubKey(UninstallKey)) {key.SetValue("DisplayName",AppName);key.SetValue("DisplayVersion","1.1.8");key.SetValue("Publisher","TinyStar桌面便签");key.SetValue("InstallLocation",Destination);key.SetValue("DisplayIcon",exe);key.SetValue("UninstallString","\""+uninstall+"\" /uninstall");key.SetValue("NoModify",1,RegistryValueKind.DWord);key.SetValue("NoRepair",1,RegistryValueKind.DWord);}
+            using(var key=Registry.CurrentUser.CreateSubKey(UninstallKey)) {key.SetValue("DisplayName",AppName);key.SetValue("DisplayVersion","1.1.9");key.SetValue("Publisher","TinyStar桌面便签");key.SetValue("InstallLocation",Destination);key.SetValue("DisplayIcon",exe);key.SetValue("UninstallString","\""+uninstall+"\" /uninstall");key.SetValue("NoModify",1,RegistryValueKind.DWord);key.SetValue("NoRepair",1,RegistryValueKind.DWord);}
             using(var run=Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run",true)) {if(run!=null && run.GetValue("ZhuomianNotes")!=null)run.SetValue("ZhuomianNotes","\""+exe+"\"");}
             SHChangeNotify(0x08000000,0,IntPtr.Zero,IntPtr.Zero);
             if(MessageBox.Show("安装完成。\n现在打开TinyStar桌面便签吗？",AppName,MessageBoxButtons.YesNo,MessageBoxIcon.Information)==DialogResult.Yes)DesktopNotes.DesktopLaunchContext.StartFromDesktop(exe,new string[0],1);return 0;

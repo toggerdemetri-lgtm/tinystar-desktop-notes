@@ -3,8 +3,8 @@ using System.Reflection;
 [assembly: AssemblyTitle("TinyStar桌面便签")]
 [assembly: AssemblyProduct("TinyStar桌面便签")]
 [assembly: AssemblyDescription("桌面待办与便签")]
-[assembly: AssemblyVersion("1.1.8.0")]
-[assembly: AssemblyFileVersion("1.1.8.0")]
+[assembly: AssemblyVersion("1.1.9.0")]
+[assembly: AssemblyFileVersion("1.1.9.0")]
 
 
 

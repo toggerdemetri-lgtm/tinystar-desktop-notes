@@ -126,7 +126,15 @@ namespace DesktopNotes {
                         if(inputRevision!=clickRevision) {previousSignature=null;return;}
                         ReplaceItems(result,inputRevision);previousSignature=current;LastError=null;
                     }));
-                }catch(Exception ex) {LastError=ex.Message;}finally {Interlocked.Exchange(ref busy,0);}
+                }catch(Exception ex) {LastError=ex.Message;}finally {
+                    try {
+                        // Frozen images can outlive this STA thread, but its WPF
+                        // dispatcher windows and rendering context must not.
+                        var dispatcher=Dispatcher.FromThread(Thread.CurrentThread);
+                        if(dispatcher!=null && !dispatcher.HasShutdownStarted)dispatcher.InvokeShutdown();
+                    }catch(Exception ex) {LastError=ex.Message;}
+                    finally {Interlocked.Exchange(ref busy,0);}
+                }
             });worker.IsBackground=true;worker.SetApartmentState(ApartmentState.STA);worker.Start();
         }
         void LoadPaths() {

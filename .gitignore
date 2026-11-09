@@ -99,3 +99,7 @@
 !/tests/verify-release-1.1.0.ps1
 !/tests/WindowRecoveryProbe.cs
 !/tools/IconBuilder.cs
+!/docs/使用说明-1.1.9.txt
+!/tests/WindowResourceProbe.cs
+!/tests/window-resources.ps1
+!/store/release-notes-1.1.9.zh-CN.txt

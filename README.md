@@ -2,7 +2,7 @@
 
 ![TinyStar](assets/shell-icon-preview/app-icon.png)
 
-面向 Windows 10/11 的桌面便签与待办工具，使用 C#、WPF 和 .NET Framework 4.8 编写。当前源码版本为 **1.1.8**。
+面向 Windows 10/11 的桌面便签与待办工具，使用 C#、WPF 和 .NET Framework 4.8 编写。当前源码版本为 **1.1.9**。
 
 [下载 Windows 安装包](https://github.com/toggerdemetri-lgtm/tinystar-desktop-notes/releases/latest) · [微软商店](https://apps.microsoft.com/detail/9PFHSD4F4VV0)
 
@@ -15,7 +15,7 @@
 - 深浅主题、图片背景、独立透明度和界面大小调整。
 - 分类密码、本地保存、导出备份与恢复。
 
-1.1.8 修复关机或重启后位置变化的问题：只有主动拖动、缩放和恢复位置才更新保存坐标；显示区域临时变化时保留用户原位置。
+1.1.9 修复长期运行时桌面图标刷新线程累积窗口注册资源的问题；保留此前的启动数据、闪烁光标和重启位置修复。
 
 ## 安装与数据
 
@@ -34,17 +34,18 @@
 .\build.ps1
 ```
 
-输出位于 `dist/1.1.8/`，包含安装包、免安装 ZIP、使用说明及 SHA-256 校验文件。
+输出位于 `dist/1.1.9/`，包含安装包、免安装 ZIP、使用说明及 SHA-256 校验文件。
 
 ## 回归检查
 
 测试使用独立的虚构数据目录。运行界面测试时，请保持 Windows 桌面处于解锁状态。
 
 ```powershell
+.\tests\window-resources.ps1 -Rounds 150
 .\tests\placement-recovery.ps1
-.\tests\release-1.1.0-smoke.ps1 -ApplicationPath 'dist\1.1.8\ZhuomianNotes.exe' -ExpectedVersion '1.1.8.0'
-.\tests\caret-rendering-probe.ps1 -ApplicationPath 'dist\1.1.8\ZhuomianNotes.exe' -Blink -DetachCaret
-.\tests\RunWindowRecovery.ps1 -ApplicationPath 'dist\1.1.8\ZhuomianNotes.exe' -DisposedSource -HiddenWindow -EditingNote
+.\tests\release-1.1.0-smoke.ps1 -ApplicationPath 'dist\1.1.9\ZhuomianNotes.exe' -ExpectedVersion '1.1.9.0'
+.\tests\caret-rendering-probe.ps1 -ApplicationPath 'dist\1.1.9\ZhuomianNotes.exe' -Blink -DetachCaret
+.\tests\RunWindowRecovery.ps1 -ApplicationPath 'dist\1.1.9\ZhuomianNotes.exe' -DisposedSource -HiddenWindow -EditingNote
 ```
 
 ## 可选 MSIX 构建
